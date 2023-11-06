@@ -1,18 +1,9 @@
 import { Card, Image, Grid, Title } from '@mantine/core'
-import {
-  Revenues,
-  Services
-} from '../components/_dashboard'
-import {
-  IconUsersGroup,
-  IconUsers,
-  IconHomeShield
-} from '@tabler/icons-react';
-import StatusCards from '../components/StatusCards'
-import { UsersTable } from '../components/usersTable';
-import tableData from '../assets/data/mockUsersTable.json'
-import { Link } from 'react-router-dom';
 
+
+import { Link } from 'react-router-dom';
+import Tracking from '../components/_dashboard/Tracking';
+import CalendarA from '../components/_dashboard/CalendarA';
 function Dashboard() {
 
 
@@ -21,13 +12,15 @@ function Dashboard() {
       <Title order={3} mx={5} italic fw={700} my={10}>
         Dashboard
       </Title>
-      <Grid>
+      <Grid mt={15}>
         <Grid.Col span={4}>
           <Link to="/login">
             <Card
+              radius="xl"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
+                border: '2.5px solid #57CEB4',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#e5fff9';
@@ -44,15 +37,19 @@ function Dashboard() {
                 alt="Norway"
               />
             </Card>
+
           </Link>
         </Grid.Col>
         <Grid.Col span={4}>
 
-        <Link to="/Notes">
+          <Link to="/Notes">
             <Card
+
+              radius="xl"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
+                border: '2.5px solid #57CEB4',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#e5fff9';
@@ -62,7 +59,7 @@ function Dashboard() {
               }}
             >
               <Image
-                src="/cronometro.png"
+                src="/nota-adhesiva.png"
                 maw={240}
                 mx="auto"
                 radius="md"
@@ -74,11 +71,14 @@ function Dashboard() {
         </Grid.Col>
         <Grid.Col span={4}>
 
-        <Link to="/Materials">
+          <Link to="/Materials">
             <Card
+
+              radius="xl"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
+                border: '2.5px solid #57CEB4',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#e5fff9';
@@ -88,7 +88,7 @@ function Dashboard() {
               }}
             >
               <Image
-                src="/cronometro.png"
+                src="/portapapeles.png"
                 maw={240}
                 mx="auto"
                 radius="md"
@@ -96,19 +96,13 @@ function Dashboard() {
               />
             </Card>
           </Link>
-        </Grid.Col>
-        <Grid.Col sm={4} xs={6} mt={20}>
-          {/* <StudentPerformance
-            data={studentPerformance}
-          /> */}
         </Grid.Col>
         <Grid.Col sm={8} xs={6} mt={20}>
-          <Card withBorder radius="lg">
-            <Title order={3} fw={700} italic mb={10}>
-              Horario
-            </Title>
-            {/* <CalendarModule /> */}
-          </Card>
+<Tracking/>
+        </Grid.Col>
+        <Grid.Col sm={4} xs={6} mt={20}>
+
+          <CalendarA />
         </Grid.Col>
       </Grid>
     </>
