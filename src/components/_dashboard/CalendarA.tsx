@@ -7,7 +7,7 @@ function CalendarA({ }: Props) {
     return (
         <>
 
-            <Card h={720} withBorder radius="lg">
+            <Card h={720} withBorder radius="lg"  padding="lg"  shadow="xl">
                 <Title order={3} fw={700} italic mb={10}>
                     Horario
                 </Title>

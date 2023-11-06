@@ -7,13 +7,15 @@ import {
     Text,
     Divider,
     Modal,
+    Card,
     Group,
     ActionIcon,
     Button,
+    ScrollArea
 } from '@mantine/core';
-import { IconSearch, IconTrashX, IconEye, IconDownload } from '@tabler/icons-react';
+import { IconSearch, IconTrashX, IconEye,  } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
-
+import Addnotes from '../components/Addnotes';
 type Props = {}
 
 function Notes({ }: Props) {
@@ -22,49 +24,81 @@ function Notes({ }: Props) {
     const [opened, { open, close }] = useDisclosure(false);
     const elements = [
         { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-        { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-        { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-        { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-        { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
     ];
     const rows = elements.map((element) => (
         <tr key={element.name}>
-          <td>{element.position}</td>
-          <td>{element.name}</td>
-          <td>{element.symbol}</td>
-          <td>{element.mass}</td>
+            <td>{element.position}</td>
+            <td>{element.name}</td>
+            <td>{element.symbol}</td>
+            <td>{element.mass}</td>
+            <td>
+
+                <Group position="center">
+
+                    <ActionIcon mt={5} color="green" variant="filled">
+                        <IconEye
+
+                            size="1.125rem"
+                        />
+                    </ActionIcon>
+
+
+                    <ActionIcon
+                        mt={5}
+                        color="red"
+                        variant="filled"
+                    >
+                        <IconTrashX size="1.125rem" />
+
+                    </ActionIcon>
+
+                </Group>
+
+            </td>
         </tr>
-      ));
+    ));
     return (
         <>
             <Modal opened={opened} onClose={close} title="Authentication">
                 {/* Modal content */}
             </Modal>
             <Title order={3}>Mis notas</Title>
+            <Card mt={15} withBorder padding="lg" radius="lg" shadow="xl">
 
-            <Group position="apart">
+                <Group position="apart">
 
-                <TextInput
-                    placeholder="Buscar...."
-                    rightSection={icon}
-                    mt="md"
-                    w={510}
-                />
+                    <TextInput
+                        placeholder="Buscar...."
+                        rightSection={icon}
+                        mt="md"
+                        w={510}
+                        radius="lg"
+                        size="lg"
 
-            </Group>
-            <Table mt={15} striped highlightOnHover withBorder withColumnBorders>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Clase</th>
-                        <th>Tipo</th>
-                        <th>Creada</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
+                    />
+                    <Addnotes />
+                </Group>
+            </Card>
 
-            </Table>
+            <Card mt={15} withBorder radius="lg" shadow="xl">
+                <ScrollArea h={900}>
+
+                    <Table  fontSize="lg" mt={15} striped highlightOnHover withBorder withColumnBorders>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Clase</th>
+                                <th>Tipo</th>
+                                <th>Creada</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>{rows}</tbody>
+
+                    </Table>
+                </ScrollArea>
+            </Card>
+
         </>
     )
 }
