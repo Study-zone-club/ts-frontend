@@ -42,7 +42,7 @@ function Dashboard() {
         </Grid.Col>
         <Grid.Col span={4}>
 
-          <Link to="/Notes">
+          <Link to="/notes">
             <Card
 
               radius="xl"

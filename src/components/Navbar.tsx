@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import { createStyles, Navbar, UnstyledButton, Tooltip, Title, rem, Avatar } from '@mantine/core';
 import {
   IconGauge,
-  // IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
+  IconUsersGroup,
   IconUser,
   // IconSettings,
   IconChevronLeft
@@ -85,7 +83,7 @@ const useStyles = createStyles((theme) => ({
     textDecoration: 'none',
     borderTopRightRadius: theme.radius.md,
     borderBottomRightRadius: theme.radius.md,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.green[7], 
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.green[7],
     padding: `0 ${theme.spacing.md}`,
     fontSize: theme.fontSizes.sm,
     marginRight: theme.spacing.md,
@@ -105,13 +103,13 @@ const useStyles = createStyles((theme) => ({
     borderTopRightRadius: theme.radius.md,
     borderBottomRightRadius: theme.radius.md,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black, // Cambiado a verde
-    
+
     padding: `0 ${theme.spacing.md}`,
     fontSize: theme.fontSizes.sm,
     marginRight: theme.spacing.md,
     fontWeight: 500,
     height: rem(44),
-    
+
     lineHeight: rem(44),
     '&:hover': {
       color: theme.colors.green[7], // Cambiado a verde en hover
@@ -121,7 +119,7 @@ const useStyles = createStyles((theme) => ({
 
   linkActive: {
     color: theme.colors.green[7],
-    
+
     '&, &:hover': {
       backgroundColor: theme.colors.green[1],
       color: theme.colors.white,
@@ -134,9 +132,8 @@ const useStyles = createStyles((theme) => ({
 const mainLinksMockdata: ILink[] = [
   { icon: IconGauge, label: 'Dashboard', link: '/' },
   // { icon: IconDeviceDesktopAnalytics, label: 'Estadisticas', link: '/statics' },
-  { icon: IconCalendarStats, label: 'Reportes', link: '/reports' },
+  { icon: IconUsersGroup, label: 'Reportes', link: '/grupos' },
   { icon: IconUser, label: 'Mi cuenta', link: '/my-account' },
-  { icon: IconFingerprint, label: 'Seguridad', link: '/security' },
   // { icon: IconSettings, label: 'Configuraciones', link: '/settings' },
 ];
 
@@ -148,7 +145,7 @@ export default function Nav() {
   );
   const sidebar = useSidebar();
   useEffect(() => {
-    
+
     localStorage.setItem('sidebarOpen', sidebarOpen.toString());
   }, [sidebarOpen]);
 
@@ -163,14 +160,16 @@ export default function Nav() {
       <Link to={link.link} className={cx(classes.mainLink, { [classes.mainLinkActive]: active === link.link })}>
         <UnstyledButton
           onClick={() => setActive(link.link)}
-          className={cx(classes.mainLink, { [classes.mainLinkActive]: active === link.link })} 
+          className={cx(classes.mainLink, { [classes.mainLinkActive]: active === link.link })}
         >
           <link.icon size='1.4rem' stroke={1.5} />
         </UnstyledButton>
       </Link>
     </Tooltip>
   ));
+  const activeLink = first(where(mainLinksMockdata, (link: ILink) => link.link === window.location.pathname));
 
+  const activeLinkLabel = activeLink ? activeLink.label : '';
   const handleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
     sidebar.setSidebar(!sidebar.active, sidebar.width === 0 ? 300 : 0);
@@ -204,8 +203,8 @@ export default function Nav() {
               color='light'
               size={45}
               radius='md'
-              
-            src='/logo.png'
+
+              src='/logo.png'
             >
               <IconUser size='1.4rem' stroke={1.9} />
             </Avatar>
@@ -234,11 +233,13 @@ export default function Nav() {
           </Tooltip>
         </div>
         {
+
           sidebar.active && (
             <div className={classes.main}>
               <Title order={4} className={classes.title}>
-                {first(where(mainLinksMockdata, ((link: ILink) => link.link == window.location.pathname))).label}
+                {activeLinkLabel}
               </Title>
+
               {links}
             </div>
           )
