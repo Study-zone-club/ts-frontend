@@ -9,6 +9,7 @@ import './index.css'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Dashboard from './pages/Dashboard.tsx'
 import Notes from './pages/Notes.tsx'
+import ToDo from './pages/ToDo.tsx'
 // import Login from './pages/Login.tsx'
 // import Security from './pages/Security.tsx'
 // import Accounts from './pages/Accounts.tsx'
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               {/* <ProtectionPin /> */}
               <Switch>
                 <Route path="/" component={Dashboard} exact />
+                <Route path="/ToDo" component={ToDo} exact />
                 <Route path="/notes" component={Notes} exact />
               </Switch>
             </App>

@@ -26,13 +26,13 @@ function Tracking({ }: Props) {
                             <Grid.Col span={8}>
                                 <Grid mt={5}>
                                     <Grid.Col span={6}>
-                                        <Title ta="center" order={5} fw={700} mb={5}>
-                                            hola
+                                        <Title  mt={-7} ta="center" order={2} fw={700} mb={5}>
+                                            Matematicas
                                         </Title>
                                     </Grid.Col>
                                     <Grid.Col span={6}>
-                                        <Title ta="end" order={5} fw={700} mb={5} >
-                                            s
+                                        <Title  mt={-7} color='green' ta="end" order={2} fw={700} mb={5} >
+                                            20
                                         </Title>
                                     </Grid.Col>
                                 </Grid>
@@ -40,9 +40,35 @@ function Tracking({ }: Props) {
                         </Grid>
                     </Card>
 
-
+                    <Card
+                        h={70}
+                        withBorder
+                        mb={10}
+                        radius='md'
+                        
+                    >
+                        <Grid mt={-15}>
+                            <Grid.Col span={4}>
+                                <img src='/nota-adhesiva.png' width={50} height={50} />
+                            </Grid.Col>
+                            <Grid.Col span={8}>
+                                <Grid mt={5}>
+                                    <Grid.Col span={6}>
+                                        <Title ta="center" mt={-7} order={2} fw={700} mb={5}>
+                                            Quimica
+                                        </Title>
+                                    </Grid.Col>
+                                    <Grid.Col span={6}>
+                                        <Title color='red'  mt={-7} ta="end" order={2} fw={700} mb={5} >
+                                            10
+                                        </Title>
+                                    </Grid.Col>
+                                </Grid>
+                            </Grid.Col>
+                        </Grid>
+                    </Card>
                 </ScrollArea>
-                <Button fullWidth color="teal">
+                <Button radius="md" size="md" fullWidth color="teal">
                     Ver mas
                 </Button>
 

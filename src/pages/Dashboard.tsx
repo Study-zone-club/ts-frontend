@@ -16,6 +16,7 @@ function Dashboard() {
         <Grid.Col span={4}>
           <Link to="/login">
             <Card
+              padding="lg" shadow="xl"
               radius="xl"
               withBorder
               style={{
@@ -44,7 +45,7 @@ function Dashboard() {
 
           <Link to="/notes">
             <Card
-
+              padding="lg" shadow="xl"
               radius="xl"
               withBorder
               style={{
@@ -71,9 +72,10 @@ function Dashboard() {
         </Grid.Col>
         <Grid.Col span={4}>
 
-          <Link to="/Materials">
+          <Link to="/ToDo">
             <Card
-
+              padding="lg"
+              shadow="xl"
               radius="xl"
               withBorder
               style={{
@@ -98,7 +100,7 @@ function Dashboard() {
           </Link>
         </Grid.Col>
         <Grid.Col sm={8} xs={6} mt={20}>
-<Tracking/>
+          <Tracking />
         </Grid.Col>
         <Grid.Col sm={4} xs={6} mt={20}>
 

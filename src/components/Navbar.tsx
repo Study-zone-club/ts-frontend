@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { createStyles, Navbar, UnstyledButton, Tooltip, Title, rem, Avatar } from '@mantine/core';
+import { createStyles, Navbar, Text, UnstyledButton, Tooltip, Title, rem, Avatar } from '@mantine/core';
 import {
-  IconGauge,
   IconUsersGroup,
   IconUser,
-  // IconSettings,
+  IconHome,
   IconChevronLeft
 } from '@tabler/icons-react';
 import { useSidebar } from '../hooks/useSidebar';
@@ -103,11 +102,11 @@ const useStyles = createStyles((theme) => ({
     borderTopRightRadius: theme.radius.md,
     borderBottomRightRadius: theme.radius.md,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black, // Cambiado a verde
-
+    fontFamily: 'arial',
     padding: `0 ${theme.spacing.md}`,
     fontSize: theme.fontSizes.sm,
     marginRight: theme.spacing.md,
-    fontWeight: 500,
+    fontWeight: 700,
     height: rem(44),
 
     lineHeight: rem(44),
@@ -130,7 +129,7 @@ const useStyles = createStyles((theme) => ({
 
 
 const mainLinksMockdata: ILink[] = [
-  { icon: IconGauge, label: 'Dashboard', link: '/' },
+  { icon: IconHome, label: 'Dashboard', link: '/' },
   // { icon: IconDeviceDesktopAnalytics, label: 'Estadisticas', link: '/statics' },
   { icon: IconUsersGroup, label: 'Reportes', link: '/grupos' },
   { icon: IconUser, label: 'Mi cuenta', link: '/my-account' },
@@ -236,10 +235,12 @@ export default function Nav() {
 
           sidebar.active && (
             <div className={classes.main}>
-              <Title order={4} className={classes.title}>
+              <Title order={3} className={classes.title}>
                 {activeLinkLabel}
               </Title>
+              <Text>
 
+              </Text>
               {links}
             </div>
           )
