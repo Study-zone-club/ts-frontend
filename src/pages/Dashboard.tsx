@@ -14,7 +14,7 @@ function Dashboard() {
       </Title>
       <Grid mt={15}>
         <Grid.Col span={4}>
-          <Link to="/login">
+          <Link to="/Pomodoro">
             <Card
               padding="lg" shadow="xl"
               radius="xl"

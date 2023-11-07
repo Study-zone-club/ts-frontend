@@ -88,29 +88,31 @@ function Addnotes({ }: Props) {
                     <form onSubmit={form.onSubmit((values) => console.log(values))}>
 
 
-                            <TextInput
-                                placeholder="Nombre de la nota"
-                                w="100%"
-                                mb={10}
-                                {...form.getInputProps('Nombre')}
-                            />
+                        <TextInput
+                            placeholder="Nombre de la nota"
+                            w="100%"
+                            mb={10}
+                            {...form.getInputProps('Nombre')}
+                        />
 
                         <Group position='apart'>
                             <Group>
-                                <ActionIcon color="teal"  size="xl" radius="xl" variant="light">
+                                <ActionIcon color="teal" size="xl" radius="xl" variant="light">
                                     <IconClockHour9 size="2.125rem" />
                                 </ActionIcon>
                                 <Text> Creada el : {creationDate}</Text>
                             </Group>
                             <Group >
-                                <ActionIcon color="teal"  size="xl" radius="xl" variant="light">
+                                <ActionIcon color="teal" size="xl" radius="xl" variant="light">
                                     <IconList size="2.125rem" />
                                 </ActionIcon>
-                                <Group mt={10}>
+                                <Group  ml={-12} mt={10}>
                                     <Text> Clase: </Text>
                                     <Select
                                         w={210}
                                         placeholder="Selecciona una materia"
+                                        maxDropdownHeight={150}
+
                                         data={[
                                             { value: 'Comunicacion de datos 1', label: 'Comunicacion de datos 1' },
                                             { value: 'Comunicacion de datos 2', label: 'Comunicacion de datos 2' },
@@ -125,7 +127,7 @@ function Addnotes({ }: Props) {
 
                             <Group>
 
-                                <ActionIcon color="teal"  size="xl" radius="xl" variant="light">
+                                <ActionIcon color="teal" size="xl" radius="xl" variant="light">
                                     <IconNews size="2.125rem" />
                                 </ActionIcon>
 
@@ -136,6 +138,8 @@ function Addnotes({ }: Props) {
                                     <Select
                                         w={210}
                                         placeholder="Selecciona Tipo de nota"
+                                        
+                                        maxDropdownHeight={150}
                                         data={[
                                             { value: 'Lectura', label: 'Lectura' },
                                             { value: 'nose', label: 'nose' },
@@ -158,7 +162,7 @@ function Addnotes({ }: Props) {
                             {...form.getInputProps('content')}
                         />
                         <Group mt={15} position="center">
-                            <Button fullWidth radius="md" size="md"color="teal"  type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
+                            <Button fullWidth radius="md" size="md" color="teal" type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
                             {/* <Button radius="md" size="md" color='orange' rightIcon={<IconDownload />} >Importa nota</Button> */}
                         </Group>
                     </form>
