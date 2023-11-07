@@ -1,4 +1,6 @@
 import { Button, ScrollArea, Card, Grid, Title } from '@mantine/core';
+import { Link } from 'react-router-dom';
+
 type Props = {}
 
 function Tracking({ }: Props) {
@@ -68,10 +70,13 @@ function Tracking({ }: Props) {
                         </Grid>
                     </Card>
                 </ScrollArea>
+                <Link to="/material"
+                style={{textDecoration:"none"}}>
+
                 <Button radius="md" size="md" fullWidth color="teal">
                     Ver mas
                 </Button>
-
+                </Link>
             </Card>
         </>
     )
