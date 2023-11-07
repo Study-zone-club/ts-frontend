@@ -97,13 +97,13 @@ function Addnotes({ }: Props) {
 
                         <Group position='apart'>
                             <Group>
-                                <ActionIcon color="yellow" size="xl" radius="xl" variant="light">
+                                <ActionIcon color="teal"  size="xl" radius="xl" variant="light">
                                     <IconClockHour9 size="2.125rem" />
                                 </ActionIcon>
                                 <Text> Creada el : {creationDate}</Text>
                             </Group>
                             <Group >
-                                <ActionIcon color="yellow" size="xl" radius="xl" variant="light">
+                                <ActionIcon color="teal"  size="xl" radius="xl" variant="light">
                                     <IconList size="2.125rem" />
                                 </ActionIcon>
                                 <Group mt={10}>
@@ -125,7 +125,7 @@ function Addnotes({ }: Props) {
 
                             <Group>
 
-                                <ActionIcon color="yellow" size="xl" radius="xl" variant="light">
+                                <ActionIcon color="teal"  size="xl" radius="xl" variant="light">
                                     <IconNews size="2.125rem" />
                                 </ActionIcon>
 
@@ -158,8 +158,8 @@ function Addnotes({ }: Props) {
                             {...form.getInputProps('content')}
                         />
                         <Group mt={15} position="center">
-                            <Button radius="md" size="md" color='green' type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
-                            <Button radius="md" size="md" color='orange' rightIcon={<IconDownload />} >Importa nota</Button>
+                            <Button fullWidth radius="md" size="md"color="teal"  type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
+                            {/* <Button radius="md" size="md" color='orange' rightIcon={<IconDownload />} >Importa nota</Button> */}
                         </Group>
                     </form>
                 </Modal>
