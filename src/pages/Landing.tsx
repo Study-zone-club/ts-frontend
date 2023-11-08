@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
+import { Card, Image, Text, Badge, Group } from '@mantine/core';
 
 
 type Props = {}

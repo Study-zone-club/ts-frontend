@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar'
 import Navbar from './components/Navbar'
 import { useSidebar } from './hooks/useSidebar'
 import React from 'react'
+import './App.css'
 
 interface IApp {
   children?: React.ReactNode;
