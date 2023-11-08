@@ -1,9 +1,9 @@
 
 import { AppShell } from '@mantine/core'
-import Nav from './components/Navbar'
+import Sidebar from './components/Sidebar'
+import Navbar from './components/Navbar'
 import { useSidebar } from './hooks/useSidebar'
 import React from 'react'
-import { Authorization } from './config/auth/Authorization'
 
 interface IApp {
   children?: React.ReactNode;
@@ -11,11 +11,13 @@ interface IApp {
 
 function App({ children }: IApp) {
   const sidebar = useSidebar()
+
+  const linksAllowed = ['/login', '/signup', '/landing']
   return (
     <>
-      <AppShell
-        header={ !Authorization() && localStorage.getItem('user') ? <Nav /> : <></> }
-        ml={ sidebar.width <= 0 ? !Authorization() && localStorage.getItem('user') ? 50 : 0 : '-10px' }
+   <AppShell
+        header={ linksAllowed.includes(window.location.pathname) ? <Navbar/>  : <Sidebar /> }
+        ml={ sidebar.width <= 0 && !linksAllowed.includes(window.location.pathname) ? 50 : linksAllowed.includes(window.location.pathname) ? 0 : '-10px' }
         style={{ overflowX: 'hidden' }}
       >
         <>

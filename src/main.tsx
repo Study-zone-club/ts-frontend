@@ -12,6 +12,8 @@ import Notes from './pages/Notes.tsx'
 import ToDo from './pages/ToDo.tsx'
 import Material from './pages/Material.tsx'
 import Pomodoro from './pages/Pomodoro.tsx'
+import Landing from './pages/Landing.tsx'
+import Login from './pages/Login.tsx'
 // import Login from './pages/Login.tsx'
 // import Security from './pages/Security.tsx'
 // import Accounts from './pages/Accounts.tsx'
@@ -31,6 +33,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 <Route path="/notes" component={Notes} exact />
                 <Route path="/material" component={Material} exact />
                 <Route path="/pomodoro" component={Pomodoro} exact />
+                <Route path="/landing" component={Landing} exact />
+                <Route path="/Login" component={Login} exact />
               </Switch>
             </App>
           </Modals>
