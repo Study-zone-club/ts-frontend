@@ -50,9 +50,9 @@ function Lgr({}: Props) {
     };
   return (
     <Group position='center'>
-    <Card mt={100} w={650} radius="lg" shadow="xl" withBorder>
+    <Card  w={650} radius="lg" shadow="xl" withBorder>
         <Group position="apart" mt="md" mb="xs">
-            <Text h={500} fz={250} weight={500}>
+        <Text h={370} ml={122} fz={150} weight={500}>
                 {`${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`}
             </Text>
         </Group>

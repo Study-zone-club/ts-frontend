@@ -16,8 +16,8 @@ function Dashboard() {
             <Card
               padding="lg" shadow="xl"
               radius="xl"
-              h="25vh"
-              w="60vh"
+              h="20vh"
+              w="100%"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
@@ -32,7 +32,7 @@ function Dashboard() {
             >
               <Image
                 src="/cronometro.png"
-                maw={180}
+                maw={100}
                 mx="auto"
                 radius="md"
                 alt="Norway"
@@ -47,8 +47,8 @@ function Dashboard() {
             <Card
               padding="lg" shadow="xl"
               radius="xl"
-              h="25vh"
-              w="60vh"
+              h="20vh"
+              w="100%"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
@@ -63,7 +63,7 @@ function Dashboard() {
             >
               <Image
                 src="/nota-adhesiva.png"
-                maw={180}
+                maw={100}
                 mx="auto"
                 radius="md"
                 alt="Norway"
@@ -79,8 +79,8 @@ function Dashboard() {
               padding="lg"
               shadow="xl"
               radius="xl"
-              h="25vh"
-              w="60vh"
+              h="20vh"
+              w="100%"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
@@ -95,7 +95,7 @@ function Dashboard() {
             >
               <Image
                 src="/portapapeles.png"
-                maw={180}
+                maw={100}
                 mx="auto"
                 radius="md"
                 alt="Norway"

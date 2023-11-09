@@ -56,7 +56,7 @@ function Pomodoro({ }: Props) {
     return (
         <>
 
-            <Card mt={15} h="95%" withBorder radius="lg" shadow="xl" style={{ backgroundColor: "#FCFCFC" }}>
+            <Card mt={15} h="90vh" withBorder radius="lg" shadow="xl" style={{ backgroundColor: "#FCFCFC" }}>
                 <Tabs mt={15} color="green" variant="outline" style={{ backgroundColor: "#FFFFFF", borderRadius: "10px" }} radius="lg" defaultValue="pomodoro">
                     <Tabs.List grow position="apart">
                         <Tabs.Tab value="pomodoro" fz="25px" icon={<IconPhoto size="1.8rem" />}>pomodoro</Tabs.Tab>
@@ -67,9 +67,9 @@ function Pomodoro({ }: Props) {
                     <Tabs.Panel value="pomodoro" pt="xs">
 
                         <Group position='center'>
-                            <Card mt={100} w={650} radius="lg" shadow="xl" withBorder>
+                            <Card  w={650} radius="lg" shadow="xl" withBorder>
                                 <Group position="apart" mt="md" mb="xs">
-                                    <Text h={500} fz={250} weight={500}>
+                                    <Text h={370} ml={122} fz={150} weight={500}>
                                         {`${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`}
                                     </Text>
                                 </Group>

@@ -52,7 +52,7 @@ function CalendarA({ }: Props) {
 
                     
                 </Group>
-                <ScrollArea h="49vh">
+                <ScrollArea h="47vh">
                         <Table striped withColumnBorders fontSize="xl">
 
                             <tbody>{rows}</tbody>

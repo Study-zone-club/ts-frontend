@@ -13,7 +13,7 @@ function Tracking({ }: Props) {
                 </Title>
 
 
-                <ScrollArea h="49vh">
+                <ScrollArea h="48vh">
                     <Card
                         h={70}
                         withBorder
