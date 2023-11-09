@@ -1,4 +1,5 @@
 import { Card, Image, Text, Badge, Button, Group, Avatar } from '@mantine/core';
+import { Link } from 'react-router-dom';
 
 type Props = {}
 
@@ -22,9 +23,12 @@ function Navbar({ }: Props) {
                     </Avatar>
 
                     <Group ml={252}>
+                        
+                    <Link to="/landing">
                         <Button size="md" variant="subtle" color="teal" radius="xs" uppercase>
                             Inicio
                         </Button>
+                        </Link>
                         <Button size="md" variant="subtle" color="teal" radius="xs" uppercase>
                             Contáctanos
                         </Button>
@@ -34,12 +38,18 @@ function Navbar({ }: Props) {
                     </Group>
 
                     <Group >
-                        <Button size="md" variant="outline" color="teal" radius="xl">
-                            Registrarse
-                        </Button>
+
+                        <Link to="/Regis">
+                            <Button size="md" variant="outline" color="teal" radius="xl">
+                                Registrarse
+                            </Button>
+                        </Link>
+                        
+                        <Link to="/Login">
                         <Button size="md" color="teal" radius="xl">
                             Iniciar sesion
                         </Button>
+                        </Link>
 
                     </Group>
 

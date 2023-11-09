@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createStyles, Navbar, Text, UnstyledButton, Tooltip, Title, rem, Avatar } from '@mantine/core';
+import { createStyles, Navbar, Modal, Text, ActionIcon, Button, UnstyledButton, Tooltip, Title, rem, Avatar, Group } from '@mantine/core';
 import {
   IconUsersGroup,
   IconUser,
@@ -10,6 +10,7 @@ import { useSidebar } from '../hooks/useSidebar';
 import { Link } from 'react-router-dom';
 import where from '../helpers/where';
 import first from '../helpers/first';
+import { useDisclosure } from '@mantine/hooks';
 
 interface ILink {
   icon: any;
@@ -132,13 +133,14 @@ const mainLinksMockdata: ILink[] = [
   { icon: IconHome, label: 'Dashboard', link: '/' },
   // { icon: IconDeviceDesktopAnalytics, label: 'Estadisticas', link: '/statics' },
   { icon: IconUsersGroup, label: 'Reportes', link: '/grupos' },
-  { icon: IconUser, label: 'Mi cuenta', link: '/my-account' },
   // { icon: IconSettings, label: 'Configuraciones', link: '/settings' },
 ];
 
 export default function Nav() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState(window.location.pathname);
+  const [opened, { open, close }] = useDisclosure(false);
+
   const [sidebarOpen, setSidebarOpen] = useState(
     localStorage.getItem('sidebarOpen') === 'true' || false
   );
@@ -193,60 +195,89 @@ export default function Nav() {
   ));
 
   return (
-    <Navbar height='100vh' width={{ sm: sidebar.width }}>
-      <Navbar.Section grow className={classes.wrapper}>
-        <div className={classes.aside}>
-          <div className={classes.logo}>
-            
-            <Avatar
-              mt={-8}
-              color='light'
-              size={45}
-              radius='md'
+    <>
+      <Modal centered opened={opened} onClose={close} withCloseButton={false} radius="lg" >
+        <Group position='center'>
 
-              src='/logo.png'
-            >
-              <IconUser size='1.4rem' stroke={1.9} />
-            </Avatar>
-          </div>
-          {mainLinks}
-          <Tooltip
-            label={sidebar.active ? 'Cerrar panel' : 'Abrir panel'}
-            position='right'
-            withArrow
-            transitionProps={{ duration: 0 }}
-          >
-            <UnstyledButton
-              onClick={() => handleSidebar()}
-              className={cx(classes.mainLink, { [classes.mainLinkActive]: active === active })}
-              mt='auto'
-            >
-              <IconChevronLeft
-                size='1.4rem'
-                stroke={1.5}
-                style={{
-                  transition: 'transform 350ms ease',
-                  transform: sidebar.active ? 'rotate(180deg)' : 'rotate(0deg)',
-                }}
-              />
-            </UnstyledButton>
-          </Tooltip>
-        </div>
-        {
+          <Avatar variant="outline" radius="lg" size="200px" color="teal" />
+        </Group>
 
-          sidebar.active && (
-            <div className={classes.main}>
-              <Title order={3} className={classes.title}>
-                {activeLinkLabel}
-              </Title>
-              <Text>
+        <Group mt={15} position='center'>
 
-              </Text>
-              {links}
+          <Title fw={500} order={2}>Briyith Portillo</Title>
+        </Group>
+
+        <Group mt={15} position='center'>
+
+          <Title fw={500} color='grey' order={4}>reguetonchampan@gmail.com</Title>
+
+        </Group>
+
+        <Button mt={15} fullWidth color="red" radius="md">
+          Cerrar sesion
+        </Button>
+      </Modal>
+
+
+      <Navbar height='100vh' width={{ sm: sidebar.width }}>
+        <Navbar.Section grow className={classes.wrapper}>
+          <div className={classes.aside}>
+            <div className={classes.logo}>
+
+              <Avatar
+                mt={-8}
+                color='light'
+                size={45}
+                radius='md'
+
+                src='/logo.png'
+              >
+                <IconUser size='1.4rem' stroke={1.9} />
+              </Avatar>
             </div>
-          )
-        }
-      </Navbar.Section>
-    </Navbar>
+            {mainLinks}
+            <ActionIcon onClick={open} color="green" >
+              <IconUser size="1.125rem" />
+            </ActionIcon>
+            <Tooltip
+              label={sidebar.active ? 'Cerrar panel' : 'Abrir panel'}
+              position='right'
+              withArrow
+              transitionProps={{ duration: 0 }}
+            >
+              <UnstyledButton
+                onClick={() => handleSidebar()}
+                className={cx(classes.mainLink, { [classes.mainLinkActive]: active === active })}
+                mt='auto'
+              >
+                <IconChevronLeft
+                  size='1.4rem'
+                  stroke={1.5}
+                  style={{
+                    transition: 'transform 350ms ease',
+                    transform: sidebar.active ? 'rotate(180deg)' : 'rotate(0deg)',
+                  }}
+                />
+              </UnstyledButton>
+            </Tooltip>
+          </div>
+
+          {
+
+            sidebar.active && (
+              <div className={classes.main}>
+                <Title order={3} className={classes.title}>
+                  {activeLinkLabel}
+                </Title>
+                <Text>
+
+                  {links}
+                </Text>
+              </div>
+            )
+          }
+        </Navbar.Section>
+      </Navbar>
+    </>
   );
 }

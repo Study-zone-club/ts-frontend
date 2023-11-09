@@ -1,6 +1,4 @@
 import { Card, Image, Grid, Title } from '@mantine/core'
-
-
 import { Link } from 'react-router-dom';
 import Tracking from '../components/_dashboard/Tracking';
 import CalendarA from '../components/_dashboard/CalendarA';
