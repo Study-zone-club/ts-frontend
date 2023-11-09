@@ -6,14 +6,14 @@ type Props = {}
 function Tracking({ }: Props) {
     return (
         <>
-            <Card withBorder radius="lg" padding="lg"  shadow="xl">
+            <Card mt={-25} withBorder radius="lg" padding="lg"  shadow="xl">
 
                 <Title order={3} fw={700} mb={10} italic>
                     Tracking de notas
                 </Title>
 
 
-                <ScrollArea h={610}>
+                <ScrollArea h="49vh">
                     <Card
                         h={70}
                         withBorder

@@ -81,7 +81,7 @@ function Notes({ }: Props) {
             </Card>
 
             <Card mt={15} withBorder radius="lg" shadow="xl">
-                <ScrollArea h={900}>
+                <ScrollArea h="71vh">
 
                     <Table  fontSize="lg" mt={15} striped highlightOnHover withBorder withColumnBorders>
                         <thead>

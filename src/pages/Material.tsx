@@ -42,8 +42,9 @@ function Material({ }: Props) {
             </Card>
 
             <Card mt={15} withBorder radius="lg" shadow="xl">
-                <ScrollArea h={900}>
-                    <Accordion  radius="lg" variant="contained"  mt={15}>
+
+            <ScrollArea h="71vh">                 
+               <Accordion  radius="lg" variant="contained"  mt={15}>
 
                         <Accordion.Item  value="customization">
                             <Accordion.Control>

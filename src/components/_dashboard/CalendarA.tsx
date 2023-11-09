@@ -44,7 +44,7 @@ function CalendarA({ }: Props) {
     </Group>
  */}
 
-            <Card h={730} withBorder radius="lg" padding="lg" shadow="xl" style={{ position: "relative" }}>
+            <Card mt={-25}  withBorder radius="lg" padding="lg" shadow="xl" style={{ position: "relative" }}>
                 <Group position='center'>
 
 
@@ -52,7 +52,7 @@ function CalendarA({ }: Props) {
 
                     
                 </Group>
-                    <ScrollArea h={605}>
+                <ScrollArea h="49vh">
                         <Table striped withColumnBorders fontSize="xl">
 
                             <tbody>{rows}</tbody>

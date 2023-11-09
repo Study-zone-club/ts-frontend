@@ -10,12 +10,14 @@ function Dashboard() {
       <Title order={3} mx={5} italic fw={700} my={10}>
         Dashboard
       </Title>
-      <Grid mt={15}>
+      <Grid mt={-15}>
         <Grid.Col span={4}>
           <Link to="/Pomodoro">
             <Card
               padding="lg" shadow="xl"
               radius="xl"
+              h="25vh"
+              w="60vh"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
@@ -30,7 +32,7 @@ function Dashboard() {
             >
               <Image
                 src="/cronometro.png"
-                maw={240}
+                maw={180}
                 mx="auto"
                 radius="md"
                 alt="Norway"
@@ -45,6 +47,8 @@ function Dashboard() {
             <Card
               padding="lg" shadow="xl"
               radius="xl"
+              h="25vh"
+              w="60vh"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
@@ -59,7 +63,7 @@ function Dashboard() {
             >
               <Image
                 src="/nota-adhesiva.png"
-                maw={240}
+                maw={180}
                 mx="auto"
                 radius="md"
                 alt="Norway"
@@ -75,6 +79,8 @@ function Dashboard() {
               padding="lg"
               shadow="xl"
               radius="xl"
+              h="25vh"
+              w="60vh"
               withBorder
               style={{
                 transition: 'background-color 0.3s',
@@ -89,7 +95,7 @@ function Dashboard() {
             >
               <Image
                 src="/portapapeles.png"
-                maw={240}
+                maw={180}
                 mx="auto"
                 radius="md"
                 alt="Norway"
