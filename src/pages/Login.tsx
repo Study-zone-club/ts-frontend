@@ -12,10 +12,7 @@ interface ILogin {
 }
 
 interface ILoginResponse {
-    avatar?: string | null;
     user: IUser;
-    email: string;
-    password: string;
     token: string;
     exp: string;
 }
@@ -24,10 +21,10 @@ interface IUser {
     id: number;
     name: string;
     lastname: string;
-    role: number;
-    gender: 'Male' | 'Female';
-}
-
+    email: string;
+    token: string | null;
+    expiresAt: Date | string;
+  }
 function Login({ }: ILogin) {
     const remember = false
     const [email, setEmail] = useState<string>('')
@@ -43,23 +40,10 @@ function Login({ }: ILogin) {
         localStorage.removeItem('token')
     }, [])
 
-    const parseRoles = (role_id: number) => {
-        switch (role_id) {
-            case 1:
-                return 'admin'
-            case 2:
-                return 'staff'
-            case 3:
-                return 'client'
-            default:
-                return 'undefined'
-        }
-    }
-
     async function handleLogin(remember: boolean = false) {
         try {
             const { data } = await axios.post<ILoginResponse>(
-                `http://localhost:3000/auth/login`,
+                `https://studyzone.examplegym.online/auth/login`,
                 {
                     email: email,
                     password: password
@@ -74,23 +58,17 @@ function Login({ }: ILogin) {
                 id: data.user.id,
                 name: data.user.name,
                 lastname: data.user.lastname,
-                role: parseRoles(data.user.role),
                 email: email,
                 token: data.token,
-                remember: remember,
-                gender: data.user.gender,
-                expires: data.exp,
-                avatar: null
+                expiresAt: data.exp,
             }))
             if (remember) {
                 sessionStorage.setItem('lastSession', JSON.stringify({
                     name: data.user.name,
                     lastname: data.user.lastname,
-                    role: parseRoles(data.user.role),
                     token: data.token,
                     email: email,
                     password: password,
-                    gender: data.user.gender,
                     expires: data.exp,
                 }))
             } else {

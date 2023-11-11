@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface IUser {
-  firstname: string;
+  id: number;
+  name: string;
   lastname: string;
   email: string;
-  avatar: string | Blob | null;
   token: string | null;
   expiresAt: Date | string;
-  lastLogin: Date | string;
 }
 
 interface IUserState {
