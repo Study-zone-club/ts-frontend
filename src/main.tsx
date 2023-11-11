@@ -15,6 +15,7 @@ import Pomodoro from './pages/Pomodoro.tsx'
 import Landing from './pages/Landing.tsx'
 import Login from './pages/Login.tsx'
 import Regis from './pages/Regis.tsx'
+import Horario from './pages/Horario.tsx'
 // import Login from './pages/Login.tsx'
 // import Security from './pages/Security.tsx'
 // import Accounts from './pages/Accounts.tsx'
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 <Route path="/material" component={Material} exact />
                 <Route path="/pomodoro" component={Pomodoro} exact />
                 <Route path="/landing" component={Landing} exact />
+                <Route path="/Horario" component={Horario} exact />
                 <Route path="/Login" component={Login} exact />
                 <Route path="/Regis" component={Regis} exact />
               </Switch>

@@ -83,7 +83,7 @@ function Addnotes({ }: Props) {
     return (
         <>
             <>
-                <Modal radius="lg" size="45%" centered opened={opened} onClose={close} withCloseButton={false}>
+                <Modal radius="lg" size="68%" centered opened={opened} onClose={close} withCloseButton={false}>
 
                     <form onSubmit={form.onSubmit((values) => console.log(values))}>
 
