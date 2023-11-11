@@ -43,7 +43,7 @@ function Login({ }: ILogin) {
     async function handleLogin(remember: boolean = false) {
         try {
             const { data } = await axios.post<ILoginResponse>(
-                `https://studyzone.examplegym.online/auth/login`,
+                `https://studyzone.examplegym.online/login`,
                 {
                     email: email,
                     password: password
