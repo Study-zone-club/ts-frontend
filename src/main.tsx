@@ -30,14 +30,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <App>
               {/* <ProtectionPin /> */}
               <Switch>
-                <Route path="/" component={Dashboard} exact />
+                <Route path="/" component={Login} exact />
+                <Route path="/Dashboard" component={Dashboard} exact />
                 <Route path="/ToDo" component={ToDo} exact />
                 <Route path="/notes" component={Notes} exact />
                 <Route path="/material" component={Material} exact />
                 <Route path="/pomodoro" component={Pomodoro} exact />
-                <Route path="/landing" component={Landing} exact />
+                {/* <Route path="/landing" component={Landing} exact /> */}
                 <Route path="/Horario" component={Horario} exact />
-                <Route path="/Login" component={Login} exact />
                 <Route path="/Regis" component={Register} exact />
               </Switch>
             </App>

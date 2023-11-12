@@ -17,7 +17,10 @@ interface ILink {
   label: string;
   link: string;
 }
-
+interface IUser {
+  name: string;
+  lastname: string;
+}
 const useStyles = createStyles((theme) => ({
   wrapper: {
     display: 'flex',
@@ -44,7 +47,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.green[7], // Cambiado a verde
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.green[7],
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
     },
@@ -52,8 +55,8 @@ const useStyles = createStyles((theme) => ({
 
   mainLinkActive: {
     '&, &:hover': {
-      backgroundColor: theme.colors.green[1], // Cambiado a verde cuando está activo
-      color: theme.colors.white, // Cambiado a blanco cuando está activo
+      backgroundColor: theme.colors.green[1],
+      color: theme.colors.white, 
     },
   },
 
@@ -102,7 +105,7 @@ const useStyles = createStyles((theme) => ({
     textDecoration: 'none',
     borderTopRightRadius: theme.radius.md,
     borderBottomRightRadius: theme.radius.md,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black, // Cambiado a verde
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black, 
     fontFamily: 'arial',
     padding: `0 ${theme.spacing.md}`,
     fontSize: theme.fontSizes.sm,
@@ -112,7 +115,7 @@ const useStyles = createStyles((theme) => ({
 
     lineHeight: rem(44),
     '&:hover': {
-      color: theme.colors.green[7], // Cambiado a verde en hover
+      color: theme.colors.green[7], 
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
     },
   },
@@ -130,22 +133,31 @@ const useStyles = createStyles((theme) => ({
 
 
 const mainLinksMockdata: ILink[] = [
-  { icon: IconHome, label: 'Dashboard', link: '/' },
-  // { icon: IconDeviceDesktopAnalytics, label: 'Estadisticas', link: '/statics' },
+  { icon: IconHome, label: 'Dashboard', link: '/Dashboard' },
   { icon: IconUsersGroup, label: 'Reportes', link: '/grupos' },
-  // { icon: IconSettings, label: 'Configuraciones', link: '/settings' },
 ];
 
 export default function Nav() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState(window.location.pathname);
   const [opened, { open, close }] = useDisclosure(false);
+  const [userData, setUserData] = useState<{ name?: string; lastname?: string; email?: string }>({});
 
   const [sidebarOpen, setSidebarOpen] = useState(
     localStorage.getItem('sidebarOpen') === 'true' || false
   );
   const sidebar = useSidebar();
+
   useEffect(() => {
+    const userString = localStorage.getItem("user");
+
+    if (userString) {
+      const parsedUserData = JSON.parse(userString);
+      console.log("Datos del usuario:", parsedUserData);
+      setUserData(parsedUserData);
+    } else {
+      console.log("No se encontraron datos del usuario en el localStorage");
+    }
 
     localStorage.setItem('sidebarOpen', sidebarOpen.toString());
   }, [sidebarOpen]);
@@ -193,7 +205,12 @@ export default function Nav() {
       {link.label}
     </Link>
   ));
-
+  const handleCerrarSesion = () => {
+    window.location.href = "/";
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  };
   return (
     <>
       <Modal centered opened={opened} onClose={close} withCloseButton={false} radius="lg" >
@@ -204,18 +221,19 @@ export default function Nav() {
 
         <Group mt={15} position='center'>
 
-          <Title fw={500} order={2}>Briyith Portillo</Title>
+          <Title fw={500} order={2}>{userData.name} {userData.lastname}</Title>
         </Group>
 
         <Group mt={15} position='center'>
 
-          <Title fw={500} color='grey' order={4}>reguetonchampan@gmail.com</Title>
+          <Title fw={500} color='grey' order={4}>{userData.email}</Title>
 
         </Group>
-
-        <Button mt={15} fullWidth color="red" radius="md">
-          Cerrar sesion
-        </Button>
+        <Link to="/" style={{ textDecoration: "none" }}>
+      <Button mt={15} fullWidth color="red" radius="md" onClick={handleCerrarSesion}>
+        Cerrar sesión
+      </Button>
+    </Link>
       </Modal>
 
 

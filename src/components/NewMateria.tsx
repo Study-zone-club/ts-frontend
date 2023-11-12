@@ -6,6 +6,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
+import axios from 'axios';
 
 type Props = {}
 
@@ -14,10 +15,10 @@ function NewMateria({ }: Props) {
 
     const form = useForm({
         initialValues: {
-            materia: '',
+            title: '',
         },
         validate: {
-            materia: (value) => {
+            title: (value) => {
                 if (!value) {
                     return 'Campo materia no puede estar vacío';
                 }
@@ -28,14 +29,27 @@ function NewMateria({ }: Props) {
     return (
         <>
             <Modal radius="lg" opened={opened} onClose={close} withCloseButton={false} centered>
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form onSubmit={form.onSubmit(async (values) => {
+                    try {
+                        const token = localStorage.getItem("token");
+                        const response = await axios.post('https://studyzone.examplegym.online/subjects', { subject: values }, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        });
+
+                        console.log('Respuesta del servidor:', response.data);
+                    } catch (error) {
+                        console.error('Error al enviar los datos:', error);
+                    }
+                })}>
                     <TextInput
                         radius="md"
                         size="lg"
 
                         placeholder="Nombre de la materia"
                         label="Nombre de la materia"
-                        {...form.getInputProps('materia')}
+                        {...form.getInputProps('title')}
                     />
 
                     <Button mt={15} color="teal" radius="md" size="md" fullWidth type="submit">

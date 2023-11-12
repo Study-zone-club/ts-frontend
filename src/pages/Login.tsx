@@ -74,7 +74,7 @@ function Login({ }: ILogin) {
             } else {
                 sessionStorage.removeItem('lastSession')
             }
-            history.push('/')
+            history.push('/Dashboard')
             setTimeout(() => {
                 window.location.reload()
             }, 100)

@@ -13,7 +13,7 @@ interface IApp {
 function App({ children }: IApp) {
   const sidebar = useSidebar()
 
-  const linksAllowed = ['/login', '/signup', '/landing','/Regis']
+  const linksAllowed = ['/', '/signup', '/landing','/Regis']
   return (
     <>
    <AppShell
