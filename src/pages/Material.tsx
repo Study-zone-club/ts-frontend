@@ -20,19 +20,45 @@ type Props = {}
 interface Subject {
     title: string;
 }
+interface Activity {
+    id: number;
+    title: string;
+    calification: number;
+    subject: {
+        id: number;
+        title: string;
+        area: string;
+        professor: string;
+        lapse: number;
+        power: any[]; // Assuming power is an array
+        promedy: number;
+    };
+    user: {
+        id: number;
+        name: string;
+        lastname: string;
+        email: string;
+    };
+}
 function Material({ }: Props) {
     const icon = <IconSearch style={{ width: rem(16), height: rem(16) }} />;
     const [subjects, setSubjects] = useState<Subject[]>([]);
-    const token = localStorage.getItem("token");
+    const [activities, setActivities] = useState<Activity[]>([]);
+    const token = localStorage.getItem('token');
+    const [subjectAverages, setSubjectAverages] = useState<{ [key: string]: number }>({});
+
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchSubjects = async () => {
             try {
-                const response = await axios.get('https://studyzone.examplegym.online/subjects', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const response = await axios.get(
+                    'https://studyzone.examplegym.online/subjects',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
                 setSubjects(response.data);
             } catch (error) {
@@ -40,8 +66,53 @@ function Material({ }: Props) {
             }
         };
 
-        fetchData();
+        const fetchActivities = async () => {
+            try {
+                const response = await axios.get(
+                    'https://studyzone.examplegym.online/activities',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setActivities(response.data);
+            } catch (error) {
+                console.error('Error fetching activities:', error);
+            }
+        };
+
+        fetchSubjects();
+        fetchActivities();
     }, [token]);
+    useEffect(() => {
+        // Calcula el promedio para cada materia
+        const calculateAverages = () => {
+            const averages: { [key: string]: number } = {};
+
+            subjects.forEach((subject) => {
+                const subjectActivities = activities.filter(
+                    (activity) => activity.subject.title === subject.title
+                );
+
+                if (subjectActivities.length > 0) {
+                    const totalCalifications = subjectActivities.reduce(
+                        (sum, activity) => sum + activity.calification,
+                        0
+                    );
+                    const average = totalCalifications / subjectActivities.length;
+
+                    averages[subject.title] = average;
+                }
+            });
+
+            setSubjectAverages(averages);
+        };
+
+        calculateAverages();
+    }, [subjects, activities]);
+
     return (
         <>
             <Title mt={15} order={3}>Tracking de notas</Title>
@@ -65,7 +136,6 @@ function Material({ }: Props) {
             </Card>
 
             <Card mt={15} withBorder radius="lg" shadow="xl">
-
                 <ScrollArea h="65vh">
                     <Accordion radius="lg" variant="contained" mt={15}>
                         {subjects.map((subject, index) => (
@@ -78,36 +148,57 @@ function Material({ }: Props) {
                                     </Group>
                                 </Accordion.Control>
                                 <Accordion.Panel>
+                                    {activities
+                                        .filter((activity) => activity.subject.title === subject.title)
+                                        .map((activity) => (
+                                            <div key={activity.id}>
+                                                <Group position="apart">
+                                                    <Text fw={700}>{activity.title}</Text>
+                                                    <Group>
+                                                        <Text
+                                                            style={{
+                                                                color: activity.calification > 18 ? 'green' : (activity.calification >= 10 && activity.calification <= 17) ? 'orange' : 'red',
+                                                                fontWeight: 700
+                                                            }}
+                                                        >
+                                                            {activity.calification}
+                                                        </Text>
 
-                                    <>
-                                        <Group position="apart">
-                                            <Text fw={700}>Examen</Text>
-                                            <Group>
-
-                                                <Text color='orange' fw={700} >
-                                                    15
-                                                </Text>
-                                                <ActionIcon
-                                                    mt={5}
-                                                    color="red"
-                                                    variant="filled"
-                                                >
-                                                    <IconTrashX size="1.125rem" />
-                                                </ActionIcon>
-                                            </Group>
-                                        </Group>
-                                        <Divider size="md" variant="dashed" my="sm" />
-                                    </>
-
+                                                        <ActionIcon
+                                                            mt={5}
+                                                            color="red"
+                                                            variant="filled"
+                                                        >
+                                                            <IconTrashX size="1.125rem" />
+                                                        </ActionIcon>
+                                                    </Group>
+                                                </Group>
+                                                <Divider size="md" variant="dashed" my="sm" />
+                                            </div>
+                                        ))}
                                     <Group position="center">
-                                        <Title order={3} >
+                                        <Title order={3} c="black">
                                             Promedio:{" "}
-                                            <Title color='orange' >
-                                                15
+                                            <Title
+                                                style={{
+                                                    fontWeight: 700,
+                                                    color:
+                                                        subjectAverages[subject.title] !== undefined
+                                                            ? subjectAverages[subject.title] > 18
+                                                                ? 'green'
+                                                                : subjectAverages[subject.title] >= 10 &&
+                                                                    subjectAverages[subject.title] <= 17
+                                                                    ? 'orange'
+                                                                    : 'red'
+                                                            : '#228BE6', 
+                                                }}
+                                            >
+                                                {subjectAverages[subject.title]?.toFixed(2) || "Sin actividades"}
                                             </Title>
                                         </Title>
                                     </Group>
                                 </Accordion.Panel>
+
                             </Accordion.Item>
                         ))}
                     </Accordion>

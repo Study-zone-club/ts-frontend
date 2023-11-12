@@ -28,7 +28,10 @@ function NewMateria({ }: Props) {
 
     return (
         <>
-            <Modal radius="lg" opened={opened} onClose={close} withCloseButton={false} centered>
+            <Modal radius="lg" opened={opened} onClose={() => {
+                close();
+                window.location.reload();
+            }} withCloseButton={false} centered>
                 <form onSubmit={form.onSubmit(async (values) => {
                     try {
                         const token = localStorage.getItem("token");
@@ -39,6 +42,10 @@ function NewMateria({ }: Props) {
                         });
 
                         console.log('Respuesta del servidor:', response.data);
+
+                        close();
+                        window.location.reload();
+
                     } catch (error) {
                         console.error('Error al enviar los datos:', error);
                     }

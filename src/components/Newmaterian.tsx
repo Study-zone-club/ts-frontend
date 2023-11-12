@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import {
     Button,
     Modal,
@@ -8,8 +8,13 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
+import axios from 'axios';
 
 type Props = {}
+interface Subject {
+    id: number;
+    title: string;
+}
 
 function Newmaterian({ }: Props) {
     const form = useForm({
@@ -44,27 +49,44 @@ function Newmaterian({ }: Props) {
         },
     });
     const [opened, { open, close }] = useDisclosure(false);
+    const [subjects, setSubjects] = useState<Subject[]>([]);
+    const token = localStorage.getItem("token");
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://studyzone.examplegym.online/subjects', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setSubjects(response.data);
+            } catch (error) {
+                console.error('Error fetching subjects:', error);
+            }
+        };
+
+        fetchData();
+    }, [token]);
+    const selectOptions = subjects.map((subject) => ({
+        value: String(subject.id),
+        label: subject.title,
+    }));
     return (
         <>
-            <Modal  radius="lg" size="35%" opened={opened} onClose={close} withCloseButton={false} centered>
+            <Modal radius="lg" size="35%" opened={opened} onClose={close} withCloseButton={false} centered>
 
                 <form onSubmit={form.onSubmit((values) => console.log(values))}>
 
                     <Select
-                        mt={15}
-                        label="Elige la materia"
+                        placeholder="Selecciona una materia"
+                        maxDropdownHeight={150}
+                        label="Materia"
+                        data={selectOptions}
                         radius="md"
                         size="lg"
-
-                        placeholder="Escoge una materia"
-                        data={[
-                            { value: 'react', label: 'React' },
-                            { value: 'ng', label: 'Angular' },
-                            { value: 'svelte', label: 'Svelte' },
-                            { value: 'vue', label: 'Vue' },
-                        ]}
-                        {...form.getInputProps('Materia')}
+                        {...form.getInputProps('Clase')}
                     />
 
                     <TextInput
@@ -72,7 +94,6 @@ function Newmaterian({ }: Props) {
                         placeholder="Nombre de la Actividad"
                         radius="md"
                         size="lg"
-
                         label="Nombre de la Actividad"
                         {...form.getInputProps('Actividad')}
                     />
