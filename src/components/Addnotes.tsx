@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconPlus,
@@ -130,34 +130,16 @@ const Addnotes = () => {
         fetchData();
     }, [token]);
 
-    const handleSubmit = async (values: NoteFormData, event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
+    const handleSubmit = async (values: NoteFormData) => {
         const noteData: NoteData = {
-            id: 0,
             title: values.Nombre,
             content: values.content,
             note_type: values.Tipo,
-            updated_at: getCurrentDateTime(),
-            created_at: getCurrentDateTime(),
-            subject: {
-                id: 1,
-                title: values.Clase,
-                area: '',
-                professor: '',
-                lapse: 0,
-                power: [],
-            },
-            user: {
-                id: 0,
-                name: '',
-                lastname: '',
-                email: '',
-            },
+            subject_id: 1
         };
 
         try {
-            const response = await axios.post('https://studyzone.examplegym.online/notes', noteData, {
+            const response = await axios.post('https://studyzone.examplegym.online/notes', { notes: noteData }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -175,7 +157,7 @@ const Addnotes = () => {
             <>
                 <Modal radius="lg" size="70%" centered opened={opened} onClose={close} withCloseButton={false}>
 
-                <form onSubmit={(event) => form.onSubmit((values) => handleSubmit(values, event))}>
+                <form onSubmit={() => handleSubmit(form.values)}>
 
 
                         <TextInput
@@ -245,7 +227,6 @@ const Addnotes = () => {
                         />
                         <Group mt={15} position="center">
                             <Button fullWidth radius="md" size="md" color="teal" type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
-                            {/* <Button radius="md" size="md" color='orange' rightIcon={<IconDownload />} >Importa nota</Button> */}
                         </Group>
                     </form>
                 </Modal>
