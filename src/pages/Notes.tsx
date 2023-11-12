@@ -8,7 +8,9 @@ import {
   Card,
   Group,
   ActionIcon,
-  ScrollArea
+  ScrollArea,
+  Divider,
+  Text
 } from '@mantine/core';
 import { IconSearch, IconTrashX, IconEye, } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
@@ -37,29 +39,39 @@ type Note = {
   created_at: string;
   updated_at: string;
 };
-function Notes({ }: Props) {
+
+function Notes({}: Props) {
   const icon = <IconSearch style={{ width: rem(16), height: rem(16) }} />;
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [opened, { open, close }] = useDisclosure();
   const [notes, setNotes] = useState<Note[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
-    axios.get('https://studyzone.examplegym.online/notes', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(response => {
+    axios
+      .get('https://studyzone.examplegym.online/notes', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
         setNotes(response.data as Note[]);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching notes:', error);
       });
   }, []);
+
+  const openNoteDetails = (note: Note) => {
+    setSelectedNote(note);
+    open();
+  };
+
   const handleDeleteNote = (noteId: number) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     axios
       .delete(`https://studyzone.examplegym.online/notes/${noteId}`, {
@@ -75,7 +87,12 @@ function Notes({ }: Props) {
       });
   };
 
-  const rows = notes.map((note) => {
+  // Filter notes based on the search query
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const rows = filteredNotes.map((note) => {
     const createdAtDate = new Date(note.created_at);
 
     const day = createdAtDate.getDate();
@@ -92,15 +109,10 @@ function Notes({ }: Props) {
         <td>{formattedDate}</td>
         <td>
           <Group position="center">
-            <ActionIcon mt={5} color="green" variant="filled">
+            <ActionIcon onClick={() => openNoteDetails(note)} mt={5} color="green" variant="filled">
               <IconEye size="1.125rem" />
             </ActionIcon>
-            <ActionIcon
-              mt={5}
-              color="red"
-              variant="filled"
-              onClick={() => handleDeleteNote(note.id)}
-            >
+            <ActionIcon mt={5} color="red" variant="filled" onClick={() => handleDeleteNote(note.id)}>
               <IconTrashX size="1.125rem" />
             </ActionIcon>
           </Group>
@@ -108,25 +120,43 @@ function Notes({ }: Props) {
       </tr>
     );
   });
+
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Authentication">
+      <Modal radius="lg" size="55%" centered opened={opened} onClose={close} withCloseButton={false}>
+        {selectedNote && (
+          <>
 
+            <Group position="center">
+              <Title> {selectedNote.title}</Title>
+
+
+            </Group>
+            <Divider size="md" variant="dashed" my="sm" />
+            <Text>
+
+              {selectedNote.content}
+            </Text>
+
+          </>
+        )}
       </Modal>
+
       <Title order={3}>Mis anotaciones</Title>
       <Card mt={15} withBorder padding="lg" radius="lg" shadow="xl">
 
         <Group position="apart">
-
-          <TextInput
+        <TextInput
             placeholder="Buscar...."
             rightSection={icon}
             mt="md"
             w={510}
             radius="lg"
             size="lg"
-
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.currentTarget.value)}
           />
+
           <Addnotes />
         </Group>
       </Card>

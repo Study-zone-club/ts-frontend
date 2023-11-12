@@ -56,6 +56,8 @@ const Addnotes = () => {
     const [opened, { open, close }] = useDisclosure(false);
     const [creationDate, setCreationDate] = useState("");
     const [subjects, setSubjects] = useState<Subject[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const form = useForm({
         initialValues: {
             title: '',
@@ -132,6 +134,9 @@ const Addnotes = () => {
         event.preventDefault();
 
         try {
+            // Set isSubmitting to true before making the API call
+            setIsSubmitting(true);
+
             const response = await axios.post('https://studyzone.examplegym.online/notes', {
                 note: {
                     title: form.values.title,
@@ -152,6 +157,9 @@ const Addnotes = () => {
             window.location.reload();
         } catch (error) {
             console.error('Error saving note:', error);
+        } finally {
+            // Reset isSubmitting to false after the API call is complete
+            setIsSubmitting(false);
         }
     };
     const selectOptions = subjects.map((subject) => ({
@@ -236,7 +244,19 @@ const Addnotes = () => {
                             />
                         </ScrollArea>
                         <Group mt={15} position="center">
-                            <Button fullWidth radius="md" size="md" color="teal" type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
+                            <Button
+                                fullWidth
+                                radius="md"
+                                size="md"
+                                color="teal"
+                                type="submit"
+                                rightIcon={<IconDeviceFloppy />}
+                                disabled={!form.values.title || !form.values.Clase || !form.values.Tipo || !form.values.content || isSubmitting}
+                            >
+                                {isSubmitting ? 'Guardando...' : 'Guardar'}
+                            </Button>
+
+
                         </Group>
                     </form>
                 </Modal>
