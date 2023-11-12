@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
     TextInput,
     rem,
@@ -14,12 +15,10 @@ import { IconSearch, IconTrashX } from '@tabler/icons-react';
 import NewMateria from '../components/NewMateria';
 import Newmaterian from '../components/Newmaterian';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 
 type Props = {}
 interface Subject {
     title: string;
-    // Otras propiedades si las hay
 }
 function Material({ }: Props) {
     const icon = <IconSearch style={{ width: rem(16), height: rem(16) }} />;
@@ -35,7 +34,6 @@ function Material({ }: Props) {
                     },
                 });
 
-                // Assuming the response data is an array of subjects
                 setSubjects(response.data);
             } catch (error) {
                 console.error('Error fetching subjects:', error);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconPlus,
@@ -6,10 +6,8 @@ import {
     IconList,
     IconNews,
     IconDeviceFloppy,
-    IconDownload
 } from '@tabler/icons-react';
-
-
+import axios from 'axios';
 import {
     TextInput,
     Text,
@@ -23,11 +21,44 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-type Props = {}
+interface Subject {
+    title: string;
+}
 
-function Addnotes({ }: Props) {
+interface NoteData {
+    id: number;
+    title: string;
+    content: string;
+    note_type: string;
+    updated_at: string;
+    created_at: string;
+    subject: {
+        id: number;
+        title: string;
+        area: string;
+        professor: string;
+        lapse: number;
+        power: any[];
+    };
+    user: {
+        id: number;
+        name: string;
+        lastname: string;
+        email: string;
+    };
+}
+
+interface NoteFormData {
+    Nombre: string;
+    Clase: string;
+    Tipo: string;
+    content: string;
+}
+
+const Addnotes = () => {
     const [opened, { open, close }] = useDisclosure(false);
     const [creationDate, setCreationDate] = useState("");
+    const [subjects, setSubjects] = useState<Subject[]>([]);
     const form = useForm({
         initialValues: {
             Nombre: '',
@@ -79,13 +110,72 @@ function Addnotes({ }: Props) {
         open();
     };
 
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://studyzone.examplegym.online/subjects', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setSubjects(response.data);
+            } catch (error) {
+                console.error('Error fetching subjects:', error);
+            }
+        };
+
+        fetchData();
+    }, [token]);
+
+    const handleSubmit = async (values: NoteFormData, event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const noteData: NoteData = {
+            id: 0,
+            title: values.Nombre,
+            content: values.content,
+            note_type: values.Tipo,
+            updated_at: getCurrentDateTime(),
+            created_at: getCurrentDateTime(),
+            subject: {
+                id: 1,
+                title: values.Clase,
+                area: '',
+                professor: '',
+                lapse: 0,
+                power: [],
+            },
+            user: {
+                id: 0,
+                name: '',
+                lastname: '',
+                email: '',
+            },
+        };
+
+        try {
+            const response = await axios.post('https://studyzone.examplegym.online/notes', noteData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log('Respuesta del servidor:', response.data);
+            close();
+        } catch (error) {
+            console.error('Error al enviar la nota:', error);
+        }
+    };
 
     return (
         <>
             <>
-                <Modal radius="lg" size="68%" centered opened={opened} onClose={close} withCloseButton={false}>
+                <Modal radius="lg" size="70%" centered opened={opened} onClose={close} withCloseButton={false}>
 
-                    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form onSubmit={(event) => form.onSubmit((values) => handleSubmit(values, event))}>
 
 
                         <TextInput
@@ -106,20 +196,13 @@ function Addnotes({ }: Props) {
                                 <ActionIcon color="teal" size="xl" radius="xl" variant="light">
                                     <IconList size="2.125rem" />
                                 </ActionIcon>
-                                <Group  ml={-12} mt={10}>
+                                <Group ml={-12} mt={10}>
                                     <Text> Clase: </Text>
                                     <Select
-                                        w={210}
+                                        w={230}
                                         placeholder="Selecciona una materia"
                                         maxDropdownHeight={150}
-
-                                        data={[
-                                            { value: 'Comunicacion de datos 1', label: 'Comunicacion de datos 1' },
-                                            { value: 'Comunicacion de datos 2', label: 'Comunicacion de datos 2' },
-                                            { value: 'Calculo 1', label: 'Calculo 1' },
-                                            { value: 'Calculo 2', label: 'Calculo 2' },
-                                            { value: 'Calculo 3', label: 'Calculo 3' },
-                                        ]}
+                                        data={subjects.map(subject => ({ value: subject.title, label: subject.title }))}
                                         {...form.getInputProps('Clase')}
                                     />
                                 </Group>
@@ -138,11 +221,10 @@ function Addnotes({ }: Props) {
                                     <Select
                                         w={210}
                                         placeholder="Selecciona Tipo de nota"
-                                        
+
                                         maxDropdownHeight={150}
                                         data={[
                                             { value: 'Lectura', label: 'Lectura' },
-                                            { value: 'nose', label: 'nose' },
                                         ]}
                                         {...form.getInputProps('Tipo')}
                                     />
