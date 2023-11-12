@@ -1,6 +1,8 @@
 
 import { Group, Button,ScrollArea, Card, Title, Table } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
+import { Link } from 'react-router-dom';
+
 type Props = {}
 
 function CalendarA({ }: Props) {
@@ -58,9 +60,12 @@ function CalendarA({ }: Props) {
                             <tbody>{rows}</tbody>
                         </Table>
                     </ScrollArea>
+                    <Link to="/horario"
+                style={{textDecoration:"none"}}>
                     <Button radius="md" size="md" fullWidth color="teal">
                     Ver mas
                 </Button>
+                </Link>
             </Card>
         </>
     )
