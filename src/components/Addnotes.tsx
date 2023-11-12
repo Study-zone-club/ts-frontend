@@ -17,13 +17,16 @@ import {
     Group,
     ActionIcon,
     Button,
-    Modal
+    Modal,
+    ScrollArea
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 interface Subject {
+    id: number;
     title: string;
 }
+
 
 interface NoteData {
     id: number;
@@ -48,12 +51,6 @@ interface NoteData {
     };
 }
 
-interface NoteFormData {
-    Nombre: string;
-    Clase: string;
-    Tipo: string;
-    content: string;
-}
 
 const Addnotes = () => {
     const [opened, { open, close }] = useDisclosure(false);
@@ -61,13 +58,13 @@ const Addnotes = () => {
     const [subjects, setSubjects] = useState<Subject[]>([]);
     const form = useForm({
         initialValues: {
-            Nombre: '',
+            title: '',
             Clase: '',
             Tipo: '',
             content: '',
         },
         validate: {
-            Nombre: (value) => {
+            title: (value) => {
                 if (!value) {
                     return 'Este campo no puede estar vacío';
                 } else {
@@ -130,41 +127,49 @@ const Addnotes = () => {
         fetchData();
     }, [token]);
 
-    const handleSubmit = async (values: NoteFormData) => {
-        const noteData: NoteData = {
-            title: values.Nombre,
-            content: values.content,
-            note_type: values.Tipo,
-            subject_id: 1
-        };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
         try {
-            const response = await axios.post('https://studyzone.examplegym.online/notes', { notes: noteData }, {
+            const response = await axios.post('https://studyzone.examplegym.online/notes', {
+                note: {
+                    title: form.values.title,
+                    content: form.values.content,
+                    note_type: form.values.Tipo,
+                    subject_id: form.values.Clase,
+                },
+            }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            console.log('Respuesta del servidor:', response.data);
+            console.log('Note saved successfully:', response.data);
+
             close();
+
+            window.location.reload();
         } catch (error) {
-            console.error('Error al enviar la nota:', error);
+            console.error('Error saving note:', error);
         }
     };
-
+    const selectOptions = subjects.map((subject) => ({
+        value: String(subject.id),
+        label: subject.title,
+    }));
     return (
         <>
             <>
                 <Modal radius="lg" size="70%" centered opened={opened} onClose={close} withCloseButton={false}>
 
-                <form onSubmit={() => handleSubmit(form.values)}>
-
+                    <form onSubmit={handleSubmit}>
 
                         <TextInput
                             placeholder="Nombre de la nota"
                             w="100%"
                             mb={10}
-                            {...form.getInputProps('Nombre')}
+                            {...form.getInputProps('title')}
                         />
 
                         <Group position='apart'>
@@ -184,9 +189,12 @@ const Addnotes = () => {
                                         w={230}
                                         placeholder="Selecciona una materia"
                                         maxDropdownHeight={150}
-                                        data={subjects.map(subject => ({ value: subject.title, label: subject.title }))}
+                                        data={selectOptions}
                                         {...form.getInputProps('Clase')}
                                     />
+
+
+
                                 </Group>
                             </Group>
 
@@ -217,14 +225,16 @@ const Addnotes = () => {
                         </Group>
                         <Divider size="md" variant="dashed" my="sm" />
 
-                        <Textarea
-                            size='xl'
-                            radius="md"
-                            withAsterisk
-                            autosize
-                            minRows={2}
-                            {...form.getInputProps('content')}
-                        />
+                        <ScrollArea h={85}>
+                            <Textarea
+                                size='xl'
+                                radius="md"
+                                withAsterisk
+                                autosize
+                                minRows={2}
+                                {...form.getInputProps('content')}
+                            />
+                        </ScrollArea>
                         <Group mt={15} position="center">
                             <Button fullWidth radius="md" size="md" color="teal" type="submit" rightIcon={<IconDeviceFloppy />} >Guardar</Button>
                         </Group>
