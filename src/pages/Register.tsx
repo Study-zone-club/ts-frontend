@@ -28,7 +28,7 @@ function Register() {
   });
 
   const createUser = () => {
-    axios.post("https://studyzone.examplegym.com/signup", form.values)
+    axios.post("https://studyzone.examplegym.online/signup", form.values)
       .then(() => {
         history.push('/login')
       })
