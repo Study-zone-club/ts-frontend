@@ -30,7 +30,7 @@ interface Activity {
         area: string;
         professor: string;
         lapse: number;
-        power: any[]; // Assuming power is an array
+        power: any[];
         promedy: number;
     };
     user: {
@@ -87,7 +87,6 @@ function Material({ }: Props) {
         fetchActivities();
     }, [token]);
     useEffect(() => {
-        // Calcula el promedio para cada materia
         const calculateAverages = () => {
             const averages: { [key: string]: number } = {};
 
@@ -112,6 +111,21 @@ function Material({ }: Props) {
 
         calculateAverages();
     }, [subjects, activities]);
+    const handleDeleteActivity = async (activityId: number) => {
+        try {
+            await axios.delete(`https://studyzone.examplegym.online/activities/${activityId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const updatedActivities = activities.filter(activity => activity.id !== activityId);
+            setActivities(updatedActivities);
+        } catch (error) {
+            console.error('Error deleting activity:', error);
+        }
+    };
+    const [searchQuery, setSearchQuery] = useState("");
 
     return (
         <>
@@ -125,8 +139,10 @@ function Material({ }: Props) {
                         w={510}
                         radius="lg"
                         size="lg"
-
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
                     />
+
                     <Group>
                         <NewMateria />
                         <Newmaterian />
@@ -138,69 +154,73 @@ function Material({ }: Props) {
             <Card mt={15} withBorder radius="lg" shadow="xl">
                 <ScrollArea h="65vh">
                     <Accordion radius="lg" variant="contained" mt={15}>
-                        {subjects.map((subject, index) => (
-                            <Accordion.Item key={index} value={subject.title}>
-                                <Accordion.Control>
-                                    <Group position="apart">
-                                        <Title mt={15} order={3}>
-                                            {subject.title}
-                                        </Title>
-                                    </Group>
-                                </Accordion.Control>
-                                <Accordion.Panel>
-                                    {activities
-                                        .filter((activity) => activity.subject.title === subject.title)
-                                        .map((activity) => (
-                                            <div key={activity.id}>
-                                                <Group position="apart">
-                                                    <Text fw={700}>{activity.title}</Text>
-                                                    <Group>
-                                                        <Text
-                                                            style={{
-                                                                color: activity.calification > 18 ? 'green' : (activity.calification >= 10 && activity.calification <= 17) ? 'orange' : 'red',
-                                                                fontWeight: 700
-                                                            }}
-                                                        >
-                                                            {activity.calification}
-                                                        </Text>
-
-                                                        <ActionIcon
-                                                            mt={5}
-                                                            color="red"
-                                                            variant="filled"
-                                                        >
-                                                            <IconTrashX size="1.125rem" />
-                                                        </ActionIcon>
-                                                    </Group>
-                                                </Group>
-                                                <Divider size="md" variant="dashed" my="sm" />
-                                            </div>
-                                        ))}
-                                    <Group position="center">
-                                        <Title order={3} c="black">
-                                            Promedio:{" "}
-                                            <Title
-                                                style={{
-                                                    fontWeight: 700,
-                                                    color:
-                                                        subjectAverages[subject.title] !== undefined
-                                                            ? subjectAverages[subject.title] > 18
-                                                                ? 'green'
-                                                                : subjectAverages[subject.title] >= 10 &&
-                                                                    subjectAverages[subject.title] <= 17
-                                                                    ? 'orange'
-                                                                    : 'red'
-                                                            : '#228BE6', 
-                                                }}
-                                            >
-                                                {subjectAverages[subject.title]?.toFixed(2) || "Sin actividades"}
+                        {subjects
+                            .filter((subject) => subject.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                            .map((subject, index) => (
+                                <Accordion.Item key={index} value={subject.title}>
+                                    <Accordion.Control>
+                                        <Group position="apart">
+                                            <Title mt={15} order={3}>
+                                                {subject.title}
                                             </Title>
-                                        </Title>
-                                    </Group>
-                                </Accordion.Panel>
+                                        </Group>
+                                    </Accordion.Control>
+                                    <Accordion.Panel>
+                                        {activities
+                                            .filter((activity) => activity.subject.title === subject.title)
+                                            .map((activity) => (
+                                                <div key={activity.id}>
+                                                    <Group position="apart">
+                                                        <Text fw={700}>{activity.title}</Text>
+                                                        <Group>
+                                                            <Text
+                                                                style={{
+                                                                    color: activity.calification > 18 ? 'green' : (activity.calification >= 10 && activity.calification <= 17) ? 'orange' : 'red',
+                                                                    fontWeight: 700
+                                                                }}
+                                                            >
+                                                                {activity.calification}
+                                                            </Text>
 
-                            </Accordion.Item>
-                        ))}
+                                                            <ActionIcon
+                                                                mt={5}
+                                                                color="red"
+                                                                variant="filled"
+                                                                onClick={() => handleDeleteActivity(activity.id)}
+                                                            >
+                                                                <IconTrashX size="1.125rem" />
+                                                            </ActionIcon>
+
+                                                        </Group>
+                                                    </Group>
+                                                    <Divider size="md" variant="dashed" my="sm" />
+                                                </div>
+                                            ))}
+                                        <Group position="center">
+                                            <Title order={3} c="black">
+                                                Promedio:{" "}
+                                                <Title
+                                                    style={{
+                                                        fontWeight: 700,
+                                                        color:
+                                                            subjectAverages[subject.title] !== undefined
+                                                                ? subjectAverages[subject.title] > 18
+                                                                    ? 'green'
+                                                                    : subjectAverages[subject.title] >= 10 &&
+                                                                        subjectAverages[subject.title] <= 17
+                                                                        ? 'orange'
+                                                                        : 'red'
+                                                                : '#228BE6',
+                                                    }}
+                                                >
+                                                    {subjectAverages[subject.title]?.toFixed(2) || "Sin actividades"}
+                                                </Title>
+                                            </Title>
+                                        </Group>
+                                    </Accordion.Panel>
+
+                                </Accordion.Item>
+                            ))}
                     </Accordion>
                 </ScrollArea>
             </Card>
