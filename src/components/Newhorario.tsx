@@ -46,30 +46,30 @@ function Newhorario({ }: Props) {
         validate: {
             dia: (value) => {
                 if (!value) {
-                    return 'Este campo no puede estar vacío';
+                    return 'Dia requerido';
                 } else {
                     return null;
                 }
             },
             Materia: (value) => {
                 if (!value) {
-                    return 'Selecciona una materia';
+                    return 'Nombre del evento';
                 } else {
                     return null;
                 }
             },
             inicio: (value) => {
                 if (!value) {
-                    return 'Selecciona una hora de inicio';
+                    return 'Selecciona hora de inicio';
                 } else {
                     return null;
                 }
             },
             cierre: (value, values) => {
                 if (!value) {
-                    return 'Selecciona una hora de cierre';
+                    return 'Selecciona hora de cierre';
                 } else if (values.inicio && values.cierre && values.inicio >= values.cierre) {
-                    return 'La hora de cierre debe ser mayor que la hora de inicio';
+                    return 'hora invalida';
                 } else {
                     return null;
                 }

@@ -223,6 +223,8 @@ const Addnotes = () => {
                                         maxDropdownHeight={150}
                                         data={[
                                             { value: 'Lectura', label: 'Lectura' },
+                                            { value: 'Pratica', label: 'Pratica' },
+                                            { value: 'Repaso', label: 'Repaso' },
                                         ]}
                                         {...form.getInputProps('Tipo')}
                                     />
