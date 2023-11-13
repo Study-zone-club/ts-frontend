@@ -134,7 +134,7 @@ const useStyles = createStyles((theme) => ({
 
 const mainLinksMockdata: ILink[] = [
   { icon: IconHome, label: 'Dashboard', link: '/Dashboard' },
-  { icon: IconUsersGroup, label: 'Reportes', link: '/grupos' },
+  { icon: IconUsersGroup, label: 'Reuniones', link: '/grupos' },
 ];
 
 export default function Nav() {
@@ -167,6 +167,11 @@ export default function Nav() {
       label={link.label}
       position='right'
       withArrow
+      onClick={() => {
+        if (link.label == 'Reuniones') {
+          window.location.href = "http://localhost:3000/";
+        }
+      }}
       transitionProps={{ duration: 0 }}
       key={link.label}
     >
