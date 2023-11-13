@@ -33,7 +33,8 @@ function Register() {
         history.push('/login')
       })
       .catch(error => {
-        setError(error.errors[0])
+        console.log(error)
+        setError(error.response.data.errors[0])
       })
   }
 
