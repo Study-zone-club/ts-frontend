@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextInput,
   rem,
@@ -10,12 +10,15 @@ import {
   ActionIcon,
   ScrollArea,
   Divider,
-  Text
+  Text,
+  Button
 } from '@mantine/core';
-import { IconSearch, IconTrashX, IconEye, } from '@tabler/icons-react';
+import { IconSearch, IconTrashX, IconEye } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import Addnotes from '../components/Addnotes';
 import axios from 'axios';
+import { Document, Page, View, Text as PdfText, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+
 
 type Props = {}
 type Subject = {
@@ -120,28 +123,35 @@ function Notes({}: Props) {
       </tr>
     );
   });
+  const MyPdfDocument = () => (
+    <Document>
+      <Page>
+        <View>
+          <PdfText>{selectedNote?.title}</PdfText>
+          <PdfText>{selectedNote?.content}</PdfText>
+        </View>
+      </Page>
+    </Document>
+  );
 
   return (
     <>
       <Modal radius="lg" size="55%" centered opened={opened} onClose={close} withCloseButton={false}>
         {selectedNote && (
           <>
-
             <Group position="center">
-              <Title> {selectedNote.title}</Title>
-
-
+              <Title>{selectedNote.title}</Title>
             </Group>
             <Divider size="md" variant="dashed" my="sm" />
-            <Text>
-
-              {selectedNote.content}
-            </Text>
-
+            <Text>{selectedNote.content}</Text>
+            <PDFDownloadLink document={<MyPdfDocument />} fileName="note.pdf">
+              {({ blob, url, loading, error }) =>
+                loading ? 'Loading document...' : <Button color="teal">Download PDF</Button>
+              }
+            </PDFDownloadLink>
           </>
         )}
       </Modal>
-
       <Title order={3}>Mis anotaciones</Title>
       <Card mt={15} withBorder padding="lg" radius="lg" shadow="xl">
 

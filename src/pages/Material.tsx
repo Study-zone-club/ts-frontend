@@ -9,7 +9,8 @@ import {
     Text,
     ActionIcon,
     Card,
-    ScrollArea
+    ScrollArea,
+    Button
 } from '@mantine/core';
 import { IconSearch, IconTrashX } from '@tabler/icons-react';
 import NewMateria from '../components/NewMateria';
@@ -196,27 +197,36 @@ function Material({ }: Props) {
                                                     <Divider size="md" variant="dashed" my="sm" />
                                                 </div>
                                             ))}
-                                        <Group position="center">
-                                            <Title order={3} c="black">
-                                                Promedio:{" "}
-                                                <Title
-                                                    style={{
-                                                        fontWeight: 700,
-                                                        color:
-                                                            subjectAverages[subject.title] !== undefined
-                                                                ? subjectAverages[subject.title] > 18
-                                                                    ? 'green'
-                                                                    : subjectAverages[subject.title] >= 10 &&
-                                                                        subjectAverages[subject.title] <= 17
-                                                                        ? 'orange'
-                                                                        : 'red'
-                                                                : '#228BE6',
-                                                    }}
-                                                >
-                                                    {subjectAverages[subject.title]?.toFixed(2) || "Sin actividades"}
+                                        <>
+                                            <Group position="center">
+                                                <Title order={3} c="black">
+                                                    Promedio:{" "}
+                                                    <Title
+                                                        style={{
+                                                            fontWeight: 700,
+                                                            color:
+                                                                subjectAverages[subject.title] !== undefined
+                                                                    ? subjectAverages[subject.title] > 18
+                                                                        ? 'green'
+                                                                        : subjectAverages[subject.title] >= 10 &&
+                                                                            subjectAverages[subject.title] <= 17
+                                                                            ? 'orange'
+                                                                            : 'red'
+                                                                    : '#228BE6',
+                                                        }}
+                                                    >
+                                                        {subjectAverages[subject.title]?.toFixed(2) || "Sin actividades"}
+                                                    </Title>
                                                 </Title>
-                                            </Title>
-                                        </Group>
+                                            </Group>
+
+                                            <Group position="right">
+                                                <Button leftIcon={<IconTrashX size="1rem" />} color='red'>
+                                                        eliminar materia
+                                                </Button>
+                                            </Group>
+                                        </>
+
                                     </Accordion.Panel>
 
                                 </Accordion.Item>
