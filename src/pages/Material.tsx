@@ -19,6 +19,7 @@ import axios from 'axios';
 
 type Props = {}
 interface Subject {
+    id: number;
     title: string;
 }
 interface Activity {
@@ -127,6 +128,22 @@ function Material({ }: Props) {
         }
     };
     const [searchQuery, setSearchQuery] = useState("");
+    const handleDeleteSubject = async (subjectId: number) => {
+        try {
+            await axios.delete(`https://studyzone.examplegym.online/subjects/${subjectId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const updatedSubjects = subjects.filter((subject) => subject.id !== subjectId);
+            setSubjects(updatedSubjects);
+            
+            window.location.reload();
+        } catch (error) {
+            console.error('Error deleting subject:', error);
+        }
+    };
 
     return (
         <>
@@ -219,12 +236,17 @@ function Material({ }: Props) {
                                                     </Title>
                                                 </Title>
                                             </Group>
-
                                             <Group position="right">
-                                                <Button leftIcon={<IconTrashX size="1rem" />} color='red'>
-                                                        eliminar materia
+                                                <Button
+                                                    leftIcon={<IconTrashX size="1rem" />}
+                                                    color="red"
+                                                    onClick={() => handleDeleteSubject(subject.id)}
+                                                >
+                                                    Eliminar materia
                                                 </Button>
                                             </Group>
+
+
                                         </>
 
                                     </Accordion.Panel>

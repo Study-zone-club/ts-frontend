@@ -13,7 +13,7 @@ import {
   Text,
   Button
 } from '@mantine/core';
-import { IconSearch, IconTrashX, IconEye } from '@tabler/icons-react';
+import { IconSearch, IconTrashX, IconEye, IconFileText } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import Addnotes from '../components/Addnotes';
 import axios from 'axios';
@@ -43,7 +43,7 @@ type Note = {
   updated_at: string;
 };
 
-function Notes({}: Props) {
+function Notes({ }: Props) {
   const icon = <IconSearch style={{ width: rem(16), height: rem(16) }} />;
 
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -90,7 +90,6 @@ function Notes({}: Props) {
       });
   };
 
-  // Filter notes based on the search query
   const filteredNotes = notes.filter((note) =>
     note.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -144,9 +143,22 @@ function Notes({}: Props) {
             </Group>
             <Divider size="md" variant="dashed" my="sm" />
             <Text>{selectedNote.content}</Text>
-            <PDFDownloadLink document={<MyPdfDocument />} fileName="note.pdf">
+            <PDFDownloadLink
+              document={<MyPdfDocument />}
+              fileName={`${selectedNote.title}.pdf`}
+            >
               {({ blob, url, loading, error }) =>
-                loading ? 'Loading document...' : <Button color="teal">Download PDF</Button>
+                loading ? 'Loading document...' :
+                  <Button
+                    style={{ textDecoration: 'none' }}
+                    mt={15}
+                    fullWidth
+                    leftIcon={<IconFileText size="1rem" />}
+                    color="teal"
+                  >
+                    Download PDF
+                  </Button>
+
               }
             </PDFDownloadLink>
           </>
@@ -156,7 +168,7 @@ function Notes({}: Props) {
       <Card mt={15} withBorder padding="lg" radius="lg" shadow="xl">
 
         <Group position="apart">
-        <TextInput
+          <TextInput
             placeholder="Buscar...."
             rightSection={icon}
             mt="md"
